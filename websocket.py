@@ -5,6 +5,7 @@ import os
 import re
 import websockets
 import argparse
+from glob import glob
 
 from waymo_open_dataset.utils import frame_utils, box_utils, transform_utils
 from waymo_open_dataset import dataset_pb2 as open_dataset
@@ -183,7 +184,8 @@ def main(args):
 
   print(f"Should label points: {args.label_points}")
 
-  segment_filenames = os.listdir(args.segments_dir)
+  # segment_filenames = os.listdir(args.segments_dir)
+  segment_filenames = list(glob(f"{args.segments_dir}/*tfrecord"))
   segment_ids = [get_segment_id(filename) for filename in segment_filenames]
 
   async def server(websocket, path):
